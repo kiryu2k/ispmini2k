@@ -1,0 +1,89 @@
+services:
+  isp-config-service:
+    image: "nexus.txix.ru/msp2/dev/isp-config-service:3.0.0"
+    container_name: "isp-config-service"
+    restart: unless-stopped
+    environment:
+      grpcOuterAddress.ip: isp-config-service
+    ports:
+      - "9001:9001"
+      - "9002:9002"
+  isp-routing-service:
+    image: "nexus.txix.ru/msp2/dev/isp-routing-service:latest"
+    container_name: "isp-routing-service"
+    restart: unless-stopped
+    environment:
+      configServiceAddress.ip: isp-config-service
+    depends_on:
+      - isp-config-service
+  isp-gate-service:
+    image: "nexus.txix.ru/msp2/dev/isp-gate-service:latest"
+    container_name: "isp-gate-service"
+    restart: unless-stopped
+    environment:
+      configServiceAddress.ip: isp-config-service
+    depends_on:
+      - isp-config-service
+      - isp-routing-service
+  isp-system-service:
+    image: "nexus.txix.ru/msp2/dev/isp-system-service:latest"
+    container_name: "isp-system-service"
+    restart: unless-stopped
+    environment:
+      configServiceAddress.ip: isp-config-service
+      remoteConfigOverride: |
+        {
+          "database": {
+            "host": "db",
+            "database": "test",
+            "username": "test",
+            "password": "test"
+          },
+          "baseline": {
+            "initialAdminUiToken": "74f3bc21-3dac-4532-9674-be4453732013"
+          }
+        }
+    depends_on:
+      - db
+      - isp-config-service
+  msp-admin-service:
+    image: "nexus.txix.ru/msp2/dev/msp-admin-service:latest"
+    container_name: "msp-admin-service"
+    restart: unless-stopped
+    environment:
+      configServiceAddress.ip: isp-config-service
+      remoteConfigOverride: |
+        {
+          "database": {
+            "host": "db",
+            "database": "test",
+            "username": "test",
+            "password": "test"
+          }
+        }
+    depends_on:
+      - db
+      - isp-config-service
+  isp-admin-ui:
+    image: "nexus.txix.ru/msp2/dev/isp-admin-ui:latest"
+    container_name: "isp-admin-ui"
+    restart: unless-stopped
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./config/config.js:/opt/msp/isp-admin-ui/config.js:ro
+    depends_on:
+      - msp-admin-service
+      - isp-gate-service
+  db:
+    image: postgres:16-alpine
+    container_name: db
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: test
+      POSTGRES_USER: test
+    volumes:
+      - /var/lib/postgresql
+    ports:
+      - "5432:5432"
+

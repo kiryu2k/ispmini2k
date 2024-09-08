@@ -1,0 +1,6 @@
+### GET request to example server
+GET http://localhost:8001/api/admin/auth/login
+x-application-token: 74f3bc21-3dac-4532-9674-be4453732013
+
+{"email":"admin@ex.com","password":"111222"}
+###
