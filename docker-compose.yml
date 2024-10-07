@@ -14,6 +14,7 @@ services:
     restart: unless-stopped
     environment:
       configServiceAddress.ip: isp-config-service
+      grpcOuterAddress.ip: isp-routing-service
     depends_on:
       - isp-config-service
   isp-gate-service:
@@ -22,6 +23,7 @@ services:
     restart: unless-stopped
     environment:
       configServiceAddress.ip: isp-config-service
+      grpcOuterAddress.ip: isp-gate-service
     depends_on:
       - isp-config-service
       - isp-routing-service
@@ -31,6 +33,7 @@ services:
     restart: unless-stopped
     environment:
       configServiceAddress.ip: isp-config-service
+      grpcOuterAddress.ip: isp-system-service
       remoteConfigOverride: |
         {
           "database": {
@@ -52,6 +55,7 @@ services:
     restart: unless-stopped
     environment:
       configServiceAddress.ip: isp-config-service
+      grpcOuterAddress.ip: msp-admin-service
       remoteConfigOverride: |
         {
           "database": {
