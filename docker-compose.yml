@@ -5,6 +5,8 @@ services:
     restart: unless-stopped
     environment:
       grpcOuterAddress.ip: isp-config-service
+    volumes:
+      - "./isp-config-service/data:/app/data"
     ports:
       - "9001:9001"
       - "9002:9002"
@@ -87,7 +89,10 @@ services:
       POSTGRES_PASSWORD: test
       POSTGRES_USER: test
     volumes:
-      - /var/lib/postgresql
+      - db:/var/lib/postgresql
     ports:
       - "5432:5432"
 
+volumes:
+  isp-config-service:
+  db:
