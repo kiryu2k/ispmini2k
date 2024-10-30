@@ -5,6 +5,7 @@ services:
     restart: unless-stopped
     environment:
       grpcOuterAddress.ip: isp-config-service
+      maintenanceMode: false
     volumes:
       - "./isp-config-service/data:/app/data"
     ports:
@@ -17,6 +18,7 @@ services:
     environment:
       configServiceAddress.ip: isp-config-service
       grpcOuterAddress.ip: isp-routing-service
+      logFile.path: ""
     depends_on:
       - isp-config-service
   isp-gate-service:
@@ -26,6 +28,7 @@ services:
     environment:
       configServiceAddress.ip: isp-config-service
       grpcOuterAddress.ip: isp-gate-service
+      logFile.path: ""
     depends_on:
       - isp-config-service
       - isp-routing-service
@@ -36,6 +39,7 @@ services:
     environment:
       configServiceAddress.ip: isp-config-service
       grpcOuterAddress.ip: isp-system-service
+      logFile.path: ""
       remoteConfigOverride: |
         {
           "database": {
@@ -58,6 +62,7 @@ services:
     environment:
       configServiceAddress.ip: isp-config-service
       grpcOuterAddress.ip: msp-admin-service
+      logFile.path: ""
       remoteConfigOverride: |
         {
           "database": {
