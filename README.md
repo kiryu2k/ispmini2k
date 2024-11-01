@@ -21,3 +21,10 @@ X-application-token админки
 ```
 74f3bc21-3dac-4532-9674-be4453732013
 ```
+
+Для обновления
+```bash
+docker compose down
+docker compose pull
+docker compose up -d
+```

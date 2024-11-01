@@ -1,6 +1,6 @@
 services:
   isp-config-service:
-    image: "nexus.txix.ru/msp2/dev/isp-config-service:3.0.2"
+    image: "nexus.txix.ru/msp2/dev/isp-config-service:3.1.0"
     container_name: "isp-config-service"
     restart: unless-stopped
     environment:
