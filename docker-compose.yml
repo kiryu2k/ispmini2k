@@ -1,10 +1,13 @@
 services:
   isp-config-service:
-    image: "nexus.txix.ru/msp2/dev/isp-config-service:3.0.0"
+    image: "nexus.txix.ru/msp2/dev/isp-config-service:latest"
     container_name: "isp-config-service"
     restart: unless-stopped
     environment:
       grpcOuterAddress.ip: isp-config-service
+      maintenanceMode: false
+    volumes:
+      - "./isp-config-service/data:/app/data"
     ports:
       - "9001:9001"
       - "9002:9002"
@@ -14,6 +17,8 @@ services:
     restart: unless-stopped
     environment:
       configServiceAddress.ip: isp-config-service
+      grpcOuterAddress.ip: isp-routing-service
+      logFile.path: ""
     depends_on:
       - isp-config-service
   isp-gate-service:
@@ -22,6 +27,8 @@ services:
     restart: unless-stopped
     environment:
       configServiceAddress.ip: isp-config-service
+      grpcOuterAddress.ip: isp-gate-service
+      logFile.path: ""
     depends_on:
       - isp-config-service
       - isp-routing-service
@@ -31,6 +38,8 @@ services:
     restart: unless-stopped
     environment:
       configServiceAddress.ip: isp-config-service
+      grpcOuterAddress.ip: isp-system-service
+      logFile.path: ""
       remoteConfigOverride: |
         {
           "database": {
@@ -52,6 +61,8 @@ services:
     restart: unless-stopped
     environment:
       configServiceAddress.ip: isp-config-service
+      grpcOuterAddress.ip: msp-admin-service
+      logFile.path: ""
       remoteConfigOverride: |
         {
           "database": {
@@ -83,7 +94,10 @@ services:
       POSTGRES_PASSWORD: test
       POSTGRES_USER: test
     volumes:
-      - /var/lib/postgresql
+      - db:/var/lib/postgresql
     ports:
       - "5432:5432"
 
+volumes:
+  isp-config-service:
+  db:
