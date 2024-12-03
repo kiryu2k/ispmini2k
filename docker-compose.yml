@@ -98,6 +98,16 @@ services:
     ports:
       - "5432:5432"
 
+  rabbitmq:
+    image: rabbitmq:4-management-alpine
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rmq:/var/lib/rabbitmq
+
 volumes:
   isp-config-service:
   db:
+  rmq:

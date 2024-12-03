@@ -12,6 +12,16 @@ docker login nexus.txix.ru
 docker compose up -d
 ```
 
+Выставить права на каталог `isp-config-service`
+```
+sudo chmod -R 777 ./isp-config-serivce
+```
+
+Перезапустить контейнеры (существует вероятность, что из-за неверно заданных прав, он могли не стартовать)
+```
+docker compose start
+```
+
 Админка и прокси для АПИ доступны тут
 ```
 http://localhost:8001
