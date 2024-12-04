@@ -11,6 +11,8 @@ services:
     ports:
       - "9001:9001"
       - "9002:9002"
+    networks:
+      - default
   isp-routing-service:
     image: "nexus.txix.ru/msp2/dev/isp-routing-service:latest"
     container_name: "isp-routing-service"
@@ -21,6 +23,8 @@ services:
       logFile.path: ""
     depends_on:
       - isp-config-service
+    networks:
+      - default
   isp-gate-service:
     image: "nexus.txix.ru/msp2/dev/isp-gate-service:latest"
     container_name: "isp-gate-service"
@@ -29,9 +33,13 @@ services:
       configServiceAddress.ip: isp-config-service
       grpcOuterAddress.ip: isp-gate-service
       logFile.path: ""
+    ports:
+      - "9003:9003"
     depends_on:
       - isp-config-service
       - isp-routing-service
+    networks:
+      - default
   isp-system-service:
     image: "nexus.txix.ru/msp2/dev/isp-system-service:latest"
     container_name: "isp-system-service"
@@ -55,6 +63,8 @@ services:
     depends_on:
       - db
       - isp-config-service
+    networks:
+      - default
   msp-admin-service:
     image: "nexus.txix.ru/msp2/dev/msp-admin-service:latest"
     container_name: "msp-admin-service"
@@ -75,6 +85,8 @@ services:
     depends_on:
       - db
       - isp-config-service
+    networks:
+      - default
   isp-admin-ui:
     image: "nexus.txix.ru/msp2/dev/isp-admin-ui:latest"
     container_name: "isp-admin-ui"
@@ -86,6 +98,8 @@ services:
     depends_on:
       - msp-admin-service
       - isp-gate-service
+    networks:
+      - default
   db:
     image: postgres:16-alpine
     container_name: db
@@ -97,6 +111,8 @@ services:
       - db:/var/lib/postgresql
     ports:
       - "5432:5432"
+    networks:
+      - default
 
   rabbitmq:
     image: rabbitmq:4-management-alpine
@@ -106,6 +122,8 @@ services:
       - "15672:15672"
     volumes:
       - rmq:/var/lib/rabbitmq
+    networks:
+      - default
 
 volumes:
   isp-config-service:
