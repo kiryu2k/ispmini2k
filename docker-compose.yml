@@ -93,8 +93,8 @@ services:
     restart: unless-stopped
     ports:
       - "8001:8001"
-    volumes:
-      - ./config/config.js:/opt/msp/isp-admin-ui/config.js:ro
+    environment:
+      APP_TOKEN: 74f3bc21-3dac-4532-9674-be4453732013
     depends_on:
       - msp-admin-service
       - isp-gate-service
