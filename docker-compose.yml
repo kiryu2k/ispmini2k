@@ -1,6 +1,6 @@
 services:
   isp-config-service:
-    image: "nexus.txix.ru/msp2/dev/isp-config-service:latest"
+    image: "ghcr.io/txix-open/isp-config-service:latest"
     container_name: "isp-config-service"
     restart: unless-stopped
     environment:
@@ -14,7 +14,7 @@ services:
     networks:
       - default
   isp-routing-service:
-    image: "nexus.txix.ru/msp2/dev/isp-routing-service:latest"
+    image: "ghcr.io/txix-open/isp-routing-service:latest"
     container_name: "isp-routing-service"
     restart: unless-stopped
     environment:
@@ -26,7 +26,7 @@ services:
     networks:
       - default
   isp-gate-service:
-    image: "nexus.txix.ru/msp2/dev/isp-gate-service:latest"
+    image: "ghcr.io/txix-open/isp-gate-service:latest"
     container_name: "isp-gate-service"
     restart: unless-stopped
     environment:
@@ -41,7 +41,7 @@ services:
     networks:
       - default
   isp-system-service:
-    image: "nexus.txix.ru/msp2/dev/isp-system-service:latest"
+    image: "ghcr.io/txix-open/isp-system-service:latest"
     container_name: "isp-system-service"
     restart: unless-stopped
     environment:
@@ -66,7 +66,7 @@ services:
     networks:
       - default
   msp-admin-service:
-    image: "nexus.txix.ru/msp2/dev/msp-admin-service:latest"
+    image: "ghcr.io/txix-open/msp-admin-service:latest"
     container_name: "msp-admin-service"
     restart: unless-stopped
     environment:
@@ -88,7 +88,7 @@ services:
     networks:
       - default
   isp-admin-ui:
-    image: "nexus.txix.ru/msp2/dev/isp-admin-ui:latest"
+    image: "ghcr.io/txix-open/isp-admin-ui:latest"
     container_name: "isp-admin-ui"
     restart: unless-stopped
     ports:
