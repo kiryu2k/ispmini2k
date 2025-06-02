@@ -125,6 +125,14 @@ services:
     networks:
       - default
 
+  redis:
+    image: arm64v8/redis:alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - default
+
 volumes:
   isp-config-service:
   db:
